@@ -21,13 +21,14 @@ class FoundationDbManager {
 
     init {
         db.options().also {
-            it.setTransactionTimeout(2000)
+            it.setTransactionTimeout(3000)
             it.setTransactionRetryLimit(5)
         }
     }
 
     suspend inline fun <reified T : Any> read(key: String) = read(key, T::class)
 
+    @Suppress("UNCHECKED_CAST")
     suspend fun <T : Any> read(key: String, kClass: KClass<T>): T? {
         val bytes = readBytes(key)
         if (bytes === null)
@@ -61,13 +62,8 @@ class FoundationDbManager {
         else cbor.load(serializer, bytes)
     }
 
-    //    private suspend fun readBytes(key: String): ByteArray? =
-//            db.readAsync { return@readAsync it[Tuple.from(key).pack()] }.await()
     private suspend fun readBytes(key: String): ByteArray? {
         return readWithRetry { it[Tuple.from(key).pack()] }
-//        db.createTransaction().use { tr ->
-//            return tr[Tuple.from(key).pack()].await()
-//        }
     }
 
     private suspend fun readWithRetry(block: (Transaction) -> CompletableFuture<ByteArray?>): ByteArray? {
@@ -91,6 +87,7 @@ class FoundationDbManager {
         updateWithRetry { it[Tuple.from(key).pack()] = value }
     }
 
+    @Suppress("UNCHECKED_CAST")
     suspend fun <T : Any> write(key: String, o: T?) {
         if (o === null) {
             writeBytesDbAsync(key, byteArrayOf())
@@ -135,6 +132,7 @@ class FoundationDbManager {
 
     inline fun <reified T : Any> readBlocking(key: String) = readBlocking(key, T::class)
 
+    @Suppress("UNCHECKED_CAST")
     fun <T : Any> readBlocking(key: String, kClass: KClass<T>): T? {
         val className = kClass.simpleName ?: throw RuntimeException("No classname")
         val serializer = getSerializer(className, kClass)
@@ -151,6 +149,7 @@ class FoundationDbManager {
     private fun readBytesBlocking(key: String): ByteArray? =
             db.read { return@read it[Tuple.from(key).pack()] }.join()
 
+    @Suppress("UNCHECKED_CAST")
     fun <T : Any> writeBlocking(key: String, o: T) {
         val kClass = o::class
         val className = kClass.simpleName ?: throw RuntimeException("No classname")
