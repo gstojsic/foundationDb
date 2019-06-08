@@ -1,16 +1,12 @@
 package org.skunkworks.foundationdb
 
-import kotlinx.serialization.Serializable
-
 import com.apple.foundationdb.FDB
 import com.apple.foundationdb.tuple.Tuple
 import kotlinx.coroutines.future.await
-import kotlinx.serialization.ContextualSerialization
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.Serializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
-import kotlinx.serialization.modules.serializersModule
-import java.util.*
 import java.util.concurrent.CompletableFuture
 
 
@@ -53,7 +49,7 @@ class FoundationDbManager {
     @Serializable
     data class Data(
             val id: Int,
-            @Serializable(with = IX::class)val payload: Payload
+            @Serializable(with = IX::class) val payload: Payload
 //            @ContextualSerialization val payload: Payload
     )
 
