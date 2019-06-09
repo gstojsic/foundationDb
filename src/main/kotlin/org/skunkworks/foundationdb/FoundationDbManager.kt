@@ -110,12 +110,15 @@ class FoundationDbManager {
         updateWithRetry { it.clear(Tuple.from(key).pack()) }
     }
 
+    suspend fun clearRange(keyPrefix: String) {
+        updateWithRetry { it.clear(Tuple.from(keyPrefix).range()) }
+    }
+
     private suspend fun updateWithRetry(block: (Transaction) -> Unit) {
         db.createTransaction().use { tr ->
             var t = tr
             while (true) {
                 try {
-                    //t.clear(Tuple.from(key).pack())
                     block(t)
                     t.commit().await()
                     break
