@@ -91,9 +91,6 @@
                         <plugin>kotlinx-serialization</plugin>
                     </compilerPlugins>
                     <jvmTarget>11</jvmTarget>
-                    <args>
-                        <arg>-Xcoroutines=enable</arg>
-                    </args>
                 </configuration>
 
                 <dependencies>
