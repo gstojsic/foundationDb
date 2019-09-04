@@ -12,7 +12,6 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.companionObject
 import kotlin.reflect.full.companionObjectInstance
 
-
 class FoundationDbManager {
     private val fdb = FDB.selectAPIVersion(610)
     private val db = fdb.open()
@@ -174,8 +173,7 @@ class FoundationDbManager {
     }
 
     private fun decodeInt(value: ByteArray): Int {
-        if (value.size != 4)
-            throw IllegalArgumentException("Array must be of size 4")
+        require(value.size == 4) { "Array must be of size 4" }
         return ByteBuffer.wrap(value).int
     }
 }

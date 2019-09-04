@@ -76,5 +76,5 @@ private suspend fun readData(manager: FoundationDbManager): List<Data?> {
 //        coroutineScope { async { manager.read(k) as String? } }
     }
     jobs.joinAll()
-    return jobs.map { it.await() }.filter { it !== null }
+    return jobs.mapNotNull { it.await() }
 }

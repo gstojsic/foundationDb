@@ -20,10 +20,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
 
-        <kotlin.version>1.3.31</kotlin.version>
-        <kotlin.coroutines.version>1.3.0-M1</kotlin.coroutines.version>
+        <kotlin.version>1.3.50</kotlin.version>
+        <kotlin.coroutines.version>1.3.0</kotlin.coroutines.version>
         <kotlin.serialization.version>0.11.0</kotlin.serialization.version>
-        <kotlin.serialization.plugin.version>1.3.30</kotlin.serialization.plugin.version>
+
+        <foundation.db.version>6.1.9</foundation.db.version>
     </properties>
 
     <dependencies>
@@ -51,7 +52,7 @@
         <dependency>
             <groupId>org.foundationdb</groupId>
             <artifactId>fdb-java</artifactId>
-            <version>6.1.8</version>
+            <version>${foundation.db.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
@@ -97,8 +98,7 @@
                     <dependency>
                         <groupId>org.jetbrains.kotlin</groupId>
                         <artifactId>kotlin-maven-serialization</artifactId>
-                        <version>${kotlin.serialization.plugin.version}</version>
-<!--                        <version>${kotlin.version}</version>-->
+                        <version>${kotlin.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
